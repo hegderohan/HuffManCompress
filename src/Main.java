@@ -31,7 +31,8 @@ public class Main {
         */
 
 
-        while (flag) {
+        while (flag)
+        {
             System.out.println("enter the option 1 for compression"+System.lineSeparator()+"2 for decompression"+System.lineSeparator()+"3 check validity of the decompressed file"+System.lineSeparator()+" and press 4 to exit"+System.lineSeparator());
             choice = scr.nextInt();
 
@@ -43,7 +44,8 @@ public class Main {
                     break;
 
                 case 2:
-                    if (atleastOnce != 1) {
+                    if (atleastOnce != 1)
+                    {
                         System.out.println("You have to perform compression at least once");
                         break;
                     }
@@ -59,11 +61,14 @@ public class Main {
                     {
                         if(val1!=val2)
                         {
+                            System.out.println((int)val1);
+                            System.out.println((int)val2);
                             System.out.println("There is a mis-match");
                         }
                         val1=f1.read();
                         val2=f2.read();
                     }
+
                     System.out.println("Files Match");
                     break;
                 case 4:flag = false;
@@ -72,7 +77,6 @@ public class Main {
                 default:
                     System.out.println("Enter a valid choice");
             }
-
         }
     }
 }

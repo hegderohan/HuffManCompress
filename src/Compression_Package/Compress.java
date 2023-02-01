@@ -15,8 +15,9 @@ public interface Compress
     void iterateTreeAndCalculateHuffManCode(Node newNode, String s);
     Map<Character, String> returnHuffmanMap();
     String getCodes(String inputFilePath, Map<Character,String> huffmanMap);
-    String appendRemainingZeros(String coded);
-    int noofZerosToBeAppended(String coded);
-    void compress(String coded, Node root, int noOfZeros) throws IOException;
-    void measureEndTime(int startTime);
+//    String appendRemainingZeros(String coded);
+//    int noofZerosToBeAppended(String coded);
+//    void compress(String coded, Node root, int noOfZeros) throws IOException;
+//    void measureEndTime(int startTime);
+    void getByteArray(Map<Character,String> huffmanMap);
 }
