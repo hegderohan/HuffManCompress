@@ -67,19 +67,11 @@ public class HuffManCompressorAndDecompressor implements FileZipper
             throw new RuntimeException(e);
         }
 
-
        Node root=d.returnRootOfTree(in);
 
        int no_of_Zeros=d.returnNoofZeros(in);
 
-       String compressedString=d.returnString(in);
-
-       //this method will read the compressed file and convert ASCII character -> decimal -> 7 bit code
-        String decoded=d.getCodedStringBack(compressedString);
-
-        decoded=d.removeAppendedZeros(decoded,no_of_Zeros);
-
-        d.getFinalAns(Path.decompressedFilePath, decoded, root);
+       d.getFinal(root,in,no_of_Zeros);
 
         System.out.println("De-Compression done Successfully");
 

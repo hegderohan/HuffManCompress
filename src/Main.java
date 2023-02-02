@@ -1,4 +1,5 @@
 
+import General_Package.FileZipper;
 import General_Package.Path;
 
 import java.io.FileReader;
@@ -15,7 +16,6 @@ public class Main {
         boolean flag = true;
 
 
-
        FileZipper zipper = new HuffManCompressorAndDecompressor();
 
 
@@ -23,7 +23,7 @@ public class Main {
 
       if I want some new Zipping Algorithm to be implemented
 
-        FileZipper zipper=new SomeNewAlgorithm();
+        General_Package.FileZipper zipper=new SomeNewAlgorithm();
 
         zipper.compress()  -> it will call that corresponding Algorithms Compression_Package.Compress Method
 

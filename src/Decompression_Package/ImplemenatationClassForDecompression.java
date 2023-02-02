@@ -1,6 +1,5 @@
 package Decompression_Package;
 
-import Decompression_Package.Decompress;
 import General_Package.Node;
 
 import java.io.*;
@@ -10,7 +9,8 @@ import General_Package.*;
 public class ImplemenatationClassForDecompression implements Decompress, GetStats {
 
     @Override
-    public int measurestartTime() {
+    public int measurestartTime()
+    {
         return (int)System.currentTimeMillis();
     }
 
@@ -41,43 +41,7 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
     }
 
     @Override
-    public String returnString(ObjectInputStream ip)
-    {
-        String compressedString="";
-        try
-        {
-          compressedString=(String) ip.readObject();
-        }
-        catch(Exception e)
-        {
-            System.out.println(e);
-        }
-        return compressedString;
-    }
-    @Override
-    public String getCodedStringBack(String compressedString)
-    {
-
-        StringBuilder decoded = new StringBuilder();
-
-        int vall=0;
-        for(char ch:compressedString.toCharArray())
-        {
-            vall = (int) ch;
-
-                ArrayList<Integer> newip = get7bitCode(vall);
-                for (int m = 0; m < 7; m++)
-                {
-                    decoded.append(newip.get(m));
-                }
-
-        }
-
-        return decoded.toString();
-    }
-
-    @Override
-    public ArrayList<Integer> get7bitCode(int val)
+    public ArrayList<Integer> get8bitcode(int val)
     {
         //this method will do the decimal to binary conversion(7bit code)
         ArrayList<Integer> ans=new ArrayList<>();
@@ -87,16 +51,16 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
             val=val/2;
         }
 
-        if(ans.size()<7)
+        if(ans.size()<8)
         {
 
-            while(ans.size()<7)
+            while(ans.size()<8)
             {
                 ans.add(0);
             }
         }
         Collections.reverse(ans);
-        //System.out.println(ans);
+
         return ans;
     }
 
@@ -117,29 +81,75 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
 
 
 
+
     @Override
-    public void getFinalAns(String decompressedFilePath, String decoded,Node root)
+    public void getFinal(Node root,ObjectInputStream in,int no_of_zeros)
     {
-        FileWriter fileWriter=null;
+
+        byte[] byteArray;
+
         try {
-            fileWriter =new FileWriter(decompressedFilePath);
-        } catch (IOException e) {
+            byteArray = (byte[])in.readObject();
+        }
+        catch (ClassNotFoundException e)
+        {
             throw new RuntimeException(e);
         }
-        Node head=root;
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        ArrayList<Integer> arr=new ArrayList<>();
+        for(byte x:byteArray)
+        {
+            if(x<0)
+            {
+                arr.add((int)x+256);
+            }
+            else
+            {
+                arr.add((int)x);
+            }
+        }
 
-        Node newNode=null;
-        for(int i=0;i<decoded.length();i++)
+
+        StringBuilder decoded=new StringBuilder();
+        System.out.println(decoded);
+        for(int x:arr)
+        {
+            int vall=x;
+            ArrayList<Integer> newip = get8bitcode(vall);
+            for (int m = 0; m < 8; m++)
+            {
+                decoded.append(newip.get(m));
+            }
+        }
+
+        Node head=root;
+        FileWriter fileWriter= null;
+        try
+        {
+            fileWriter = new FileWriter(Path.decompressedFilePath);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(e);
+        }
+        for(int i=0;i<decoded.length()-no_of_zeros;i++)
         {
 
             char cc=(decoded.charAt(i));
-            newNode=goLeftorRightAndReturnNode(root,cc);
+            Node newNode=goLeftorRightAndReturnNode(root,cc);
             if(newNode.left==null && newNode.right==null)
             {
 
-                try {
+                try
+                {
                     fileWriter.write(newNode.var);
-                } catch (IOException e) {
+                    //   System.out.println(newNode.var);
+                }
+                catch (IOException e)
+                {
                     throw new RuntimeException(e);
                 }
                 root=head;
@@ -149,20 +159,14 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
                 root=newNode;
             }
         }
-
-
         try {
             fileWriter.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
 
-    }
-
-    @Override
-    public String removeAppendedZeros(String decoded, int noOfZerosAppended)
-    {
-       return decoded.substring(0,decoded.length()-noOfZerosAppended);
     }
 
     @Override

@@ -10,11 +10,9 @@ public interface Decompress
     int measurestartTime();
     Node returnRootOfTree(ObjectInputStream ip);
     int returnNoofZeros(ObjectInputStream ip);
-    String returnString(ObjectInputStream ip);
-    String getCodedStringBack(String compressedString);
-    ArrayList<Integer> get7bitCode(int val);
+    ArrayList<Integer> get8bitcode(int val);
     Node goLeftorRightAndReturnNode(Node root,char val);
-    void getFinalAns(String decompressedFilePath, String decoded, Node root);
-    String removeAppendedZeros(String decoded, int noOfZerosAppended);
+
+    void getFinal(Node root,ObjectInputStream in,int no_of_zeros);
     void measureEndTime(int startTime);
 }

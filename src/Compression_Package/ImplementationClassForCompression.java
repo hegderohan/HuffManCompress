@@ -196,16 +196,16 @@ public class ImplementationClassForCompression implements Compress {
     public int noofZerosToBeAppended(String coded)
     {
 
-        return 7-coded.length()%7;
+        return 8-coded.length()%8;
     }
 
     @Override
     public String appendRemainingZeros(String coded)
     {
-        int rem = coded.length() % 7;
+        int rem = coded.length() % 8;
         if (rem != 0)
         {
-            rem = 7 - rem;
+            rem = 8 - rem;
             while (rem != 0)
             {
                 coded = coded + "0";
@@ -218,26 +218,37 @@ public class ImplementationClassForCompression implements Compress {
     @Override
     public void compress(String coded, Node root, int noOfZeros) throws IOException
     {
-       StringBuilder compressedString =new StringBuilder();
-        int val = 0;
-        int pow ;
 
-        for (int i = 0; i < coded.length(); i = i + 7) {
+        byte[] bytearray = new byte[coded.length() / 8];
+        String sub = "";
+        int bytearray_indx = 0;
+        for (int i = 0; i < coded.length(); i = i + 8) {
             int j = 0;
-            pow = 64;
-            while (j < 7)
-            {
-                val = val + (coded.charAt(i + j)-'0') * pow;
-                pow = pow >> 1;
+            while (j < 8) {
+                sub = sub + (coded.charAt(i + j));
                 j++;
             }
-            compressedString.append((char)val);
-            val = 0;
+            bytearray[bytearray_indx] = (byte) Integer.parseInt(sub, 2);
+            bytearray_indx++;
+            sub = "";
         }
+        ObjectOutputStream obj=null;
+        try {
+            obj=new ObjectOutputStream(new FileOutputStream(Path.compressedFilePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+
+            obj.writeObject(bytearray);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
         ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(Path.compressedFilePath));
         out.writeObject(root);
         out.writeInt(noOfZeros);
-        out.writeObject(compressedString.toString());
+        out.writeObject(bytearray);
         out.close();
     }
      public void measureEndTime(int startTime)
