@@ -72,7 +72,6 @@ public class Main {
                 default:
                     System.out.println("Enter a valid choice");
             }
-
         }
     }
 }

@@ -79,13 +79,9 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
         }
     }
 
-
-
-
     @Override
-    public void getFinal(Node root,ObjectInputStream in,int no_of_zeros)
+    public ArrayList<Integer> getArrayList(ObjectInputStream in)
     {
-
         byte[] byteArray;
 
         try {
@@ -112,6 +108,14 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
             }
         }
 
+      return arr;
+
+    }
+
+
+    @Override
+    public void getFinal(Node root,ArrayList<Integer> arr,int no_of_zeros)
+    {
 
         StringBuilder decoded=new StringBuilder();
         System.out.println(decoded);
@@ -170,7 +174,8 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
     }
 
     @Override
-    public void measureEndTime(int startTime) {
+    public void measureEndTime(int startTime)
+    {
      int timetaken=(int)System.currentTimeMillis()-startTime;
         System.out.println("Time taken for decompression "+timetaken);
     }

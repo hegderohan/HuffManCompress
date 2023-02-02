@@ -6,6 +6,7 @@ import General_Package.Node;
 import General_Package.Path;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Map;
 import General_Package.*;
 public class HuffManCompressorAndDecompressor implements FileZipper
@@ -71,7 +72,9 @@ public class HuffManCompressorAndDecompressor implements FileZipper
 
        int no_of_Zeros=d.returnNoofZeros(in);
 
-       d.getFinal(root,in,no_of_Zeros);
+        ArrayList<Integer> arr=d.getArrayList(in);
+
+       d.getFinal(root,arr,no_of_Zeros);
 
         System.out.println("De-Compression done Successfully");
 
