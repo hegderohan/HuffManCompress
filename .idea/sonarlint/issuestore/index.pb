@@ -17,3 +17,17 @@ f
 +src/main/java/General_Package/GetStats.java,4/d/4d9d34a06c88becfc2f894c1dc0b640c807fb34a
 W
 'src/main/java/General_Package/Node.java,3/5/3505a673d86b6c97f91d0e7c60874d88a31f5a1a
+c
+3src/main/java/HuffManCompressorAndDecompressor.java,0/0/007827ff5ee6e7a5cdbdcaae9025e3632e9bce4e
+^
+.src/main/java/compressionPackage/Compress.java,f/f/ff47d9be65402a3b9a28efb5baaa6ef3691a8edc
+W
+'src/main/java/General_Package/Path.java,3/4/340642a22fb8e10e9a62cd94ef64a2e0d4bc200f
+G
+src/main/java/Main.java,e/4/e44a8606ce010ad9b89aafdfcee2ab49afbf6d10
+w
+Gsrc/main/java/compressionPackage/ImplementationClassForCompression.java,c/3/c33dd2b2a054ec564d2bf27fe8fca38fef0c17fb
+}
+Msrc/main/java/Decompression_Package/ImplemenatationClassForDecompression.java,d/6/d6c50fb99a5beb50495fcb7fb2d4758c419cd0ab
+7
+pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
