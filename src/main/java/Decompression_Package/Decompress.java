@@ -13,7 +13,6 @@ public interface Decompress
     ArrayList<Integer> get8bitcode(int val);
     Node goLeftorRightAndReturnNode(Node root,char val);
 
-    ArrayList<Integer> getArrayList(ObjectInputStream in);
-    void getFinal(Node root,ArrayList<Integer> arr,int no_of_zeros);
+    void getFinal(Node root,ObjectInputStream in,int no_of_zeros);
     void measureEndTime(int startTime);
 }

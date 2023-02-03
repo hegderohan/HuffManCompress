@@ -1,6 +1,7 @@
 package compressionPackage;
 
 import General_Package.Node;
+import javafx.beans.binding.StringBinding;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -14,9 +15,9 @@ public interface Compress
     Node addElementIntoQueueAndReturnRoot(Map<Character,Integer> frequencyMap);
     void iterateTreeAndCalculateHuffManCode(Node newNode, String s);
     Map<Character, String> returnHuffmanMap();
-    String getCodes(String inputFilePath, Map<Character,String> huffmanMap);
-    String appendRemainingZeros(String coded);
-    int noofZerosToBeAppended(String coded);
-    void compress(String coded, Node root, int noOfZeros) throws IOException;
+    StringBuilder getCodes(String inputFilePath, Map<Character,String> huffmanMap);
+    StringBuilder appendRemainingZeros(StringBuilder coded);
+    int noofZerosToBeAppended(StringBuilder coded);
+    void compress(StringBuilder coded, Node root, int noOfZeros) throws IOException;
     void measureEndTime(int startTime);
 }

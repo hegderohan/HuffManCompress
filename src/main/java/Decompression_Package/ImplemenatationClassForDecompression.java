@@ -117,15 +117,32 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
 
 
     @Override
-    public void getFinal(Node root,ArrayList<Integer> arr,int no_of_zeros)
+    public void getFinal(Node root,ObjectInputStream in,int no_of_zeros)
     {
+        byte[] byteArray;
+
+        try
+        {
+            byteArray= (byte[]) in.readObject();
+        }
+        catch (IOException | ClassNotFoundException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        try
+        {
+            in.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         StringBuilder decoded=new StringBuilder();
         System.out.println(decoded);
-        for(int x:arr)
+        for(byte x:byteArray)
         {
-            int vall=x;
-            ArrayList<Integer> newip = get8bitcode(vall);
+            int val=x;
+            ArrayList<Integer> newip = get8bitcode(val<0?val+245:val);
             for (int m = 0; m < 8; m++)
             {
                 decoded.append(newip.get(m));

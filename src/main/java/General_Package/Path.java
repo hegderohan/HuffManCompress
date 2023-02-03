@@ -6,6 +6,6 @@ public interface Path
 
     String decompressedFilePath="src/main/java/decompressed.txt";
 
-    String inputFilePath = "src/main/java/input.txt";
+    String inputFilePath = "/home/rohanhegde/Desktop/input.txt";
 
 }

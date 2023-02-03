@@ -1,14 +1,10 @@
 
-G
-src/main/java/input.txt,e/2/e20d935008ee2127bcf41188b1be58848a230d88
 S
 #HuffManCompressionDecompression.iml,4/8/4804774a5d11ae390ef9d2f3bb27725dea1bd186
 L
 src/main/java/compressed.txt,8/6/8686714866fe5611597e8e132d5596e7f828c26d
 N
 src/main/java/decompressed.txt,e/d/ed82b3b02307d4d04509c5761d6da4865ecbb64b
-c
-3src/main/java/Decompression_Package/Decompress.java,d/e/de9ed18b74ee1fa9af3bf86bab3da25a8ae48f1d
 ]
 -src/main/java/General_Package/FileZipper.java,4/a/4aea6a34b3d9533bafa2eda5a7de872bb0e06e16
 f

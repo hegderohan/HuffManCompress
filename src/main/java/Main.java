@@ -2,6 +2,8 @@
 import General_Package.FileZipper;
 import General_Package.Path;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
@@ -50,8 +52,8 @@ public class Main {
                     break;
 
                 case 3:
-                    FileReader f1 = new FileReader(Path.inputFilePath);
-                    FileReader f2 = new FileReader(Path.decompressedFilePath);
+                    FileReader f1=new FileReader(Path.inputFilePath);
+                    FileReader f2=new FileReader(Path.decompressedFilePath);
                     int val1 = f1.read();
                     int val2 = f2.read();
                     while (val1 != 1 && val2 != -1)
@@ -63,8 +65,10 @@ public class Main {
                         val1=f1.read();
                         val2=f2.read();
                     }
+
                     System.out.println("Files Match");
                     break;
+
                 case 4:flag = false;
                     break;
 

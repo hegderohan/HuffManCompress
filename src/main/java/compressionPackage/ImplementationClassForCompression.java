@@ -7,7 +7,7 @@ import java.util.*;
 import General_Package.*;
 public class ImplementationClassForCompression implements Compress {
 
-    Map<Character,String> HuffMan_Map=new HashMap<>();
+    Map<Character,String> huffmanMap =new HashMap<>();
 
     @Override
     public int measurestartTime()
@@ -61,6 +61,12 @@ public class ImplementationClassForCompression implements Compress {
             {
                 throw new RuntimeException(e);
             }
+        }
+
+        try {
+            fileReader.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         return frequencyMap;
     }
@@ -146,7 +152,7 @@ public class ImplementationClassForCompression implements Compress {
         }
         if(newNode.getLeft()==null && newNode.getRight()==null)
         {
-            HuffMan_Map.put(newNode.getVar(),s);
+            huffmanMap.put(newNode.getVar(),s);
         }
         iterateTreeAndCalculateHuffManCode(newNode.getLeft(),s+"0");
         iterateTreeAndCalculateHuffManCode(newNode.getRight(),s+"1");
@@ -155,11 +161,11 @@ public class ImplementationClassForCompression implements Compress {
     @Override
     public Map<Character, String> returnHuffmanMap()
     {
-        return HuffMan_Map;
+        return huffmanMap;
     }
 
     @Override
-    public String getCodes(String inputFilePath, Map<Character, String> HuffMan_Map)
+    public StringBuilder getCodes(String inputFilePath, Map<Character, String> huffmanMap)
     {
        FileReader fileReader=null;
         StringBuilder ans=new StringBuilder();
@@ -184,7 +190,7 @@ public class ImplementationClassForCompression implements Compress {
         }
         while(c!=-1)
         {
-            ans.append((HuffMan_Map.get((char)c)));
+            ans.append((huffmanMap.get((char)c)));
 
             try {
                 c= fileReader.read();
@@ -193,18 +199,25 @@ public class ImplementationClassForCompression implements Compress {
             }
         }
 
+        try
+        {
+            fileReader.close();
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
 
-        return ans.toString();
+        return ans;
     }
-    public int noofZerosToBeAppended(String coded)
+    public int noofZerosToBeAppended(StringBuilder coded)
     {
 
-        return 8-coded.length()%8;
+        return 8-(coded.length()%8);
     }
 
     @Override
-    public String appendRemainingZeros(String coded)
+    public StringBuilder appendRemainingZeros(StringBuilder coded)
     {
         int rem = coded.length() % 8;
         if (rem != 0)
@@ -212,7 +225,7 @@ public class ImplementationClassForCompression implements Compress {
             rem = 8 - rem;
             while (rem != 0)
             {
-                coded = coded + "0";
+                coded=coded.append("0");
                 rem--;
             }
         }
@@ -220,21 +233,21 @@ public class ImplementationClassForCompression implements Compress {
     }
 
     @Override
-    public void compress(String coded, Node root, int noOfZeros) throws IOException
+    public void compress(StringBuilder coded, Node root, int noOfZeros) throws IOException
     {
 
         byte[] bytearray = new byte[coded.length() / 8];
-        String sub = "";
-        int bytearray_indx = 0;
+        StringBuilder sub =new StringBuilder();
+        int bytearrayIndex = 0;
         for (int i = 0; i < coded.length(); i = i + 8) {
             int j = 0;
             while (j < 8) {
-                sub = sub + (coded.charAt(i + j));
+                sub = sub.append(coded.charAt(i + j));
                 j++;
             }
-            bytearray[bytearray_indx] = (byte) Integer.parseInt(sub, 2);
-            bytearray_indx++;
-            sub = "";
+            bytearray[bytearrayIndex] = (byte) Integer.parseInt(sub.toString(), 2);
+            bytearrayIndex++;
+            sub.setLength(0);
         }
         ObjectOutputStream obj=null;
         try {

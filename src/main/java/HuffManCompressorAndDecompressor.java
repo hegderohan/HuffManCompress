@@ -29,7 +29,7 @@ public class HuffManCompressorAndDecompressor implements FileZipper
 
         Map<Character,String> HuffMan_Map= c.returnHuffmanMap();
 
-        String coded = c.getCodes(Path.inputFilePath,HuffMan_Map);
+        StringBuilder coded = c.getCodes(Path.inputFilePath,HuffMan_Map);
 
         int noOfZerosAppended =c.noofZerosToBeAppended(coded);
 
@@ -72,9 +72,7 @@ public class HuffManCompressorAndDecompressor implements FileZipper
 
        int no_of_Zeros=d.returnNoofZeros(in);
 
-        ArrayList<Integer> arr=d.getArrayList(in);
-
-       d.getFinal(root,arr,no_of_Zeros);
+       d.getFinal(root,in,no_of_Zeros);
 
         System.out.println("De-Compression done Successfully");
 
