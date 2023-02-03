@@ -1,9 +1,7 @@
 
-import General_Package.FileZipper;
-import General_Package.Path;
+import generalPackage.FileZipper;
+import generalPackage.Path;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;

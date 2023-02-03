@@ -1,7 +1,6 @@
 package compressionPackage;
 
-import General_Package.Node;
-import javafx.beans.binding.StringBinding;
+import generalPackage.Node;
 
 import java.io.FileReader;
 import java.io.IOException;

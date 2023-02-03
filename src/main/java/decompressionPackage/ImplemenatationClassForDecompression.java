@@ -1,13 +1,13 @@
-package Decompression_Package;
+package decompressionPackage;
 
-import General_Package.Node;
+import generalPackage.Node;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 
-import General_Package.*;
+import generalPackage.*;
 public class ImplemenatationClassForDecompression implements Decompress, GetStats {
 
 
@@ -81,40 +81,6 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
             return root;
         }
     }
-
-    @Override
-    public ArrayList<Integer> getArrayList(ObjectInputStream in)
-    {
-        byte[] byteArray;
-
-        try {
-            byteArray = (byte[])in.readObject();
-        }
-        catch (ClassNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
-        ArrayList<Integer> arr=new ArrayList<>();
-        for(byte x:byteArray)
-        {
-            if(x<0)
-            {
-                arr.add((int)x+256);
-            }
-            else
-            {
-                arr.add((int)x);
-            }
-        }
-
-      return arr;
-
-    }
-
 
     @Override
     public void getFinal(Node root,ObjectInputStream in,int no_of_zeros)

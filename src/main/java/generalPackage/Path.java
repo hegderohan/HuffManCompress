@@ -1,4 +1,4 @@
-package General_Package;
+package generalPackage;
 
 public interface Path
 {

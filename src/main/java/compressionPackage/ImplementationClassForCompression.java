@@ -1,10 +1,10 @@
 package compressionPackage;
 
-import General_Package.Node;
+import generalPackage.Node;
 
 import java.io.*;
 import java.util.*;
-import General_Package.*;
+import generalPackage.*;
 public class ImplementationClassForCompression implements Compress {
 
     Map<Character,String> huffmanMap =new HashMap<>();

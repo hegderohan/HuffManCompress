@@ -1,14 +1,13 @@
 import compressionPackage.Compress;
 import compressionPackage.ImplementationClassForCompression;
-import Decompression_Package.Decompress;
-import Decompression_Package.ImplemenatationClassForDecompression;
-import General_Package.Node;
-import General_Package.Path;
+import decompressionPackage.Decompress;
+import decompressionPackage.ImplemenatationClassForDecompression;
+import generalPackage.Node;
+import generalPackage.Path;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Map;
-import General_Package.*;
+import generalPackage.*;
 public class HuffManCompressorAndDecompressor implements FileZipper
 {
 

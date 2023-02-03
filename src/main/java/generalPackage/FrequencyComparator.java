@@ -1,6 +1,4 @@
-package General_Package;
-
-import General_Package.Node;
+package generalPackage;
 
 import java.util.Comparator;
 

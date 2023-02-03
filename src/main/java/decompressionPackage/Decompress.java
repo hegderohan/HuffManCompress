@@ -1,6 +1,6 @@
-package Decompression_Package;
+package decompressionPackage;
 
-import General_Package.Node;
+import generalPackage.Node;
 
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
