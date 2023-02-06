@@ -1,7 +1,7 @@
 package compressionPackage;
 
 import generalPackage.Node;
-
+import compressionPackage.*;
 import java.io.*;
 import java.util.*;
 import generalPackage.*;
@@ -74,6 +74,7 @@ public class ImplementationClassForCompression implements Compress {
     @Override
     public Node addElementIntoQueueAndReturnRoot(Map<Character, Integer> frequencyMap)
     {
+
         PriorityQueue<Node> pq = new PriorityQueue<>(frequencyMap.size(), new FrequencyComparator());
 
         //iterate through the frequencyMap and keep adding the elements to the priority_queue
@@ -108,7 +109,8 @@ public class ImplementationClassForCompression implements Compress {
 
 
         //I want this step to be repeated till only one element is left
-        while (pq.size() > 1) {
+        while (pq.size() > 1)
+        {
             //get the top element in the queue
                 Node leftSideNode= pq.peek();
                 //pop that element
@@ -136,7 +138,6 @@ public class ImplementationClassForCompression implements Compress {
             //push that new General_Package.Node into queue
             pq.add(newNode);
         }
-
         //after coming out from while loop return root
         return root;
     }
@@ -161,6 +162,7 @@ public class ImplementationClassForCompression implements Compress {
     @Override
     public Map<Character, String> returnHuffmanMap()
     {
+
         return huffmanMap;
     }
 
@@ -206,13 +208,14 @@ public class ImplementationClassForCompression implements Compress {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
         return ans;
     }
     public int noofZerosToBeAppended(StringBuilder coded)
     {
-
+         if(coded.length()==0 | coded.length()%8==0)
+         {
+             return 0;
+         }
         return 8-(coded.length()%8);
     }
 

@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Node implements Serializable
 {
     public char var;
-    public int frequency;
+    public int frequency=0;
     public Node left=null;
     public Node right=null;
 

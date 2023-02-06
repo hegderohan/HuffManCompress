@@ -1,5 +1,6 @@
 
-import generalPackage.FileZipper;
+import fileCompressorAndDecompressor.FileZipper;
+import fileCompressorAndDecompressor.HuffManCompressorAndDecompressor;
 import generalPackage.Path;
 
 import java.io.FileReader;

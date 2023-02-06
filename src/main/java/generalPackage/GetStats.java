@@ -6,5 +6,5 @@ public interface GetStats
 {
     void displayStats(String inputFilePath,String compressedFilePath,String decompressedFilePath);
 
-    double getFileSizeMegaBytes(File file);
+
 }

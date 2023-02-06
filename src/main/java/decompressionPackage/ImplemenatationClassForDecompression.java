@@ -108,7 +108,7 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
         for(byte x:byteArray)
         {
             int val=x;
-            ArrayList<Integer> newip = get8bitcode(val<0?val+245:val);
+            ArrayList<Integer> newip = get8bitcode(val<0?val+256:val);
             for (int m = 0; m < 8; m++)
             {
                 decoded.append(newip.get(m));
@@ -177,11 +177,11 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
         long compressedFilesize=compressedFile.length();
         long decompressedFilesize=decompressedFiled.length();
 
+        final String BYTES= "bytes ";
+       System.out.println("Input File size is "+ipFilesize+" "+BYTES);
 
-        final String BYTES= "bytes ->";
-        System.out.println("Input File size is "+ipFilesize+" "+BYTES+getFileSizeMegaBytes(ipFile)+" MB");
-        System.out.println("Compressed File size is "+compressedFilesize+" "+BYTES+getFileSizeMegaBytes(compressedFile)+" MB");
-        System.out.println("Decompressed File size is "+decompressedFilesize+" "+BYTES+getFileSizeMegaBytes(decompressedFiled)+" MB");
+        System.out.println("Compressed File size is "+compressedFilesize+" "+BYTES);
+        System.out.println("Decompressed File size is "+decompressedFilesize+" "+BYTES);
 
 
         double ans= (ipFilesize-compressedFilesize);
@@ -191,10 +191,6 @@ public class ImplemenatationClassForDecompression implements Decompress, GetStat
         System.out.println("Compression Percentage "+ans*100+" %");
     }
 
-    @Override
-    public double getFileSizeMegaBytes(File file)
-    {
-        return (double) file.length() / (1024 * 1024) ;
-    }
+
 
 }
