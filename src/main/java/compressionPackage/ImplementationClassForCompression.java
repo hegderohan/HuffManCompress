@@ -125,7 +125,8 @@ public class ImplementationClassForCompression implements Compress
         return coded;
     }
     @Override
-    public void compress(StringBuilder coded, Node root, int noOfZeros) throws IOException {
+    public void compress(StringBuilder coded, Node root, int noOfZeros) throws IOException
+    {
         byte[] bytearray = new byte[coded.length() / 8];
         StringBuilder sub =new StringBuilder();
         int bytearrayIndex = 0;
