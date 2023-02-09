@@ -9,6 +9,7 @@ import generalPackage.Node;
 import generalPackage.Path;
 
 import java.io.*;
+import java.util.HashMap;
 import java.util.Map;
 import generalPackage.*;
 public class HuffManCompressorAndDecompressor implements FileZipper
@@ -19,19 +20,36 @@ public class HuffManCompressorAndDecompressor implements FileZipper
     {
         Compress c = new ImplementationClassForCompression();
 
-        int startTime=c.measurestartTime();
+       // int startTime=c.measurestartTime();
 
         FileReader fileReader = c.readFile(Path.inputFilePath);
 
-        Map<Character, Integer> frequencyMap = c.calculateFreq(fileReader);
+        Map<Character, Integer> frequencyMap = null;
+        try {
+            frequencyMap = c.calculateFreq(fileReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-       Node root = c.addElementIntoQueueAndReturnRoot(frequencyMap);
+        Node root = c.addElementIntoQueueAndReturnRoot(frequencyMap);
 
-        c.iterateTreeAndCalculateHuffManCode(root, "");
+        Map<Character,String> HuffMan_Map=new HashMap<>();
 
-        Map<Character,String> HuffMan_Map= c.returnHuffmanMap();
+        c.iterateTreeAndCalculateHuffManCode(root, "",HuffMan_Map);
 
-        StringBuilder coded = c.getCodes(Path.inputFilePath,HuffMan_Map);
+        //Map<Character,String> HuffMan_Map= c.returnHuffmanMap();
+
+        StringBuilder coded=new StringBuilder();
+        try
+        {
+
+            coded = c.getCodes(Path.inputFilePath,HuffMan_Map);
+
+        }
+        catch (IOException e)
+        {
+            System.out.println(e);
+        }
 
         int noOfZerosAppended =c.noofZerosToBeAppended(coded);
 
@@ -48,7 +66,7 @@ public class HuffManCompressorAndDecompressor implements FileZipper
             throw new RuntimeException(e);
         }
 
-        c.measureEndTime(startTime);
+       // c.measureEndTime(startTime);
 
         System.out.println("Compression done Successfully");
     }
@@ -58,7 +76,7 @@ public class HuffManCompressorAndDecompressor implements FileZipper
     {
         Decompress d = new ImplemenatationClassForDecompression();
 
-        int startTime=d.measurestartTime();
+       // int startTime=d.measurestartTime();
 
           ObjectInputStream in= null;
         try
@@ -72,16 +90,25 @@ public class HuffManCompressorAndDecompressor implements FileZipper
 
        Node root=d.returnRootOfTree(in);
 
-       int no_of_Zeros=d.returnNoofZeros(in);
+        int no_of_Zeros=0;
+        try {
+           no_of_Zeros=d.returnNoofZeros(in);
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+
 
        d.getFinal(root,in,no_of_Zeros);
 
         System.out.println("De-Compression done Successfully");
 
-        GetStats gg= (GetStats) new ImplemenatationClassForDecompression();
+       // GetStats gg= (GetStats) new ImplemenatationClassForDecompression();
 
-        gg.displayStats(Path.inputFilePath,Path.compressedFilePath,Path.decompressedFilePath);
+       // gg.displayStats(Path.inputFilePath,Path.compressedFilePath,Path.decompressedFilePath);
 
-        d.measureEndTime(startTime);
+        GeneralClass.displayStats(Path.inputFilePath,Path.compressedFilePath,Path.decompressedFilePath);
+      //  d.measureEndTime(startTime);
     }
 }

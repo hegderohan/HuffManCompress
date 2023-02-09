@@ -1,9 +1,10 @@
 
 import fileCompressorAndDecompressor.FileZipper;
 import fileCompressorAndDecompressor.HuffManCompressorAndDecompressor;
+import generalPackage.GeneralClass;
 import generalPackage.Path;
 
-import java.io.FileReader;
+import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -34,38 +35,34 @@ public class Main {
         while (flag) {
             System.out.println("enter the option 1 for compression"+System.lineSeparator()+"2 for decompression"+System.lineSeparator()+"3 check validity of the decompressed file"+System.lineSeparator()+" and press 4 to exit"+System.lineSeparator());
             choice = scr.nextInt();
-
+            int startTime= (int)System.currentTimeMillis();
             switch (choice)
             {
                 case 1:
                     atleastOnce = 1;
                     zipper.compress();
+                    System.out.println("Time for compression  "+((int)System.currentTimeMillis()-startTime));
                     break;
 
                 case 2:
+
                     if (atleastOnce != 1) {
                         System.out.println("You have to perform compression at least once");
                         break;
                     }
                     zipper.decompress();
+                    System.out.println("Time for De-compression  "+((int)System.currentTimeMillis()-startTime));
                     break;
 
                 case 3:
-                    FileReader f1=new FileReader(Path.inputFilePath);
-                    FileReader f2=new FileReader(Path.decompressedFilePath);
-                    int val1 = f1.read();
-                    int val2 = f2.read();
-                    while (val1 != 1 && val2 != -1)
+                    if (GeneralClass.check(Path.inputFilePath, Path.decompressedFilePath) == true)
                     {
-                        if(val1!=val2)
-                        {
-                            System.out.println("There is a mis-match");
-                        }
-                        val1=f1.read();
-                        val2=f2.read();
+                        System.out.println("match");
                     }
-
-                    System.out.println("Files Match");
+                    else
+                    {
+                        System.out.println("mis-match");
+                    }
                     break;
 
                 case 4:flag = false;
