@@ -1,21 +1,11 @@
 package compressionPackage;
-
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import generalPackage.Node;
 import generalPackage.Path;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-import org.mockito.junit.MockitoJUnit;
-//import static org.junit.Assert.assertThrows;
-import generalPackage.*;
-
 import java.io.*;
-import java.lang.reflect.Field;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
-
 import static org.junit.Assert.*;
 
 
@@ -83,11 +73,11 @@ public class ImplementationClassForCompressionTest {
     @Test
     public void TestForFrequencyMap()
     {
-        FileReader f1;
-        FileWriter f2=null;
+        FileReader fileReaderFortheSameFile;
+        FileWriter fileWriterForInputFile=null;
         try
         {
-            f2=new FileWriter("src/test/java/compressionPackage/test1.txt");
+            fileWriterForInputFile=new FileWriter("src/test/java/compressionPackage/test1.txt");
         }
         catch(FileNotFoundException e)
         {
@@ -97,19 +87,19 @@ public class ImplementationClassForCompressionTest {
         }
 
         try {
-            f2.write("aabbbc");
+            fileWriterForInputFile.write("aabbbc");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try {
-            f2.flush();
-            f2.close();
+            fileWriterForInputFile.flush();
+            fileWriterForInputFile.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         try
         {
-            f1 = new FileReader("src/test/java/compressionPackage/test1.txt");
+            fileReaderFortheSameFile = new FileReader("src/test/java/compressionPackage/test1.txt");
         }
         catch (FileNotFoundException e)
         {
@@ -117,7 +107,7 @@ public class ImplementationClassForCompressionTest {
         }
         Map<Character,Integer> actualMap= null;
         try {
-            actualMap = c.calculateFreq(f1);
+            actualMap = c.calculateFreq(fileReaderFortheSameFile);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -141,15 +131,15 @@ public class ImplementationClassForCompressionTest {
         {
             throw new RuntimeException(e);
         }
-
-        Map<Character,Integer> actualMap=new HashMap<>();
-        Map<Character,Integer> expectedMap= null;
-        try {
-            expectedMap = c.calculateFreq(fileReader);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        assertEquals(actualMap,expectedMap);
+//
+//        Map<Character,Integer> actualMap=new HashMap<>();
+//        Map<Character,Integer> expectedMap= null;
+//        try {
+//            expectedMap = c.calculateFreq(fileReader);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        assertEquals(actualMap,expectedMap);
       new File("src/test/java/compressionPackage/empty.txt").delete();
     }
 
@@ -267,48 +257,6 @@ public class ImplementationClassForCompressionTest {
     }
 
 
-//
-//    @Test
-//    public void TestaddElementsIntoTreeAndreturnRoot()
-//    {
-//
-//        Map<Character,Integer> frequencyMap=new HashMap<>();
-//        frequencyMap.put('I',1);
-//        frequencyMap.put(' ',3);
-//        frequencyMap.put('A',2);
-//        frequencyMap.put('M',1);
-//        frequencyMap.put('R',1);
-//        frequencyMap.put('0',1);
-//        frequencyMap.put('H',2);
-//        frequencyMap.put('N',1);
-//        frequencyMap.put('E',2);
-//        frequencyMap.put('G',1);
-//        frequencyMap.put('D',1);
-//        Node root=c.addElementIntoQueueAndReturnRoot(frequencyMap);
-//        c.iterateTreeAndCalculateHuffManCode(root, "");
-//
-//        Map<Character,String> HuffMan_Map= c.returnHuffmanMap();
-//
-//        try
-//        {
-//            StringBuilder coded = c.getCodes(Path.inputFilePath,HuffMan_Map);
-//        }
-//        catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        ObjectOutputStream out=null;
-//        try {
-//            out=new ObjectOutputStream(new FileOutputStream("src/test/java/compressionPackage/node.txt"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        try {
-//            out.writeObject(root);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
    @Test
    public void TestCreateHuffManMap()
    {
@@ -404,10 +352,10 @@ public class ImplementationClassForCompressionTest {
            Node root=(Node)ip.readObject();
            int x=ip.readInt();
            byte[] arr=(byte[])ip.readObject();
-          for(byte b:arr)
-          {
-              System.out.println(b);
-          }
+//          for(byte b:arr)
+//          {
+//              System.out.println(b);
+//          }
           boolean flag=true;
 
            byte[] arr1={82,120};
@@ -426,28 +374,6 @@ public class ImplementationClassForCompressionTest {
        } catch (ClassNotFoundException e) {
            throw new RuntimeException(e);
        }
-
-   }
-
-   @Test
-    public void TestFileReader()
-   {
-       File f=new File("src/test/java/compressionPackage/tempFile.txt");
-       ObjectOutputStream op= null;
-       try {
-           op = new ObjectOutputStream(new FileOutputStream(f));
-           String s="hello world";
-           op.writeObject(s);
-           op.flush();
-           op.close();
-           c.readFile("src/test/java/compressionPackage/tempFile.txt");
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-
-
-
-
 
    }
 

@@ -6,6 +6,9 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import generalPackage.*;
+
+import javax.jws.soap.SOAPBinding;
+
 public class ImplemenatationClassForDecompression implements Decompress{
 
 
@@ -83,7 +86,7 @@ public class ImplemenatationClassForDecompression implements Decompress{
             {
                 int val=x;
                 ArrayList<Integer> newip = null;
-                newip = get8bitcode(val<0?val+256:val);
+                newip = this.get8bitcode(val<0?val+256:val);
                 for (int m = 0; m < 8; m++)
                 {
                     decoded.append(newip.get(m));
@@ -106,7 +109,6 @@ public class ImplemenatationClassForDecompression implements Decompress{
                     root=newNode;
                 }
             }
-
                 fileWriter.close();
         }
         catch (IOException | ClassNotFoundException e)
@@ -114,5 +116,4 @@ public class ImplemenatationClassForDecompression implements Decompress{
             throw new RuntimeException(e);
         }
     }
-
 }

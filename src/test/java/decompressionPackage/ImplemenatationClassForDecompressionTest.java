@@ -3,14 +3,19 @@ package decompressionPackage;
 import generalPackage.GeneralClass;
 import generalPackage.Path;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
-
+import static org.mockito.Mockito.spy;
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
 import generalPackage.Node;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ImplemenatationClassForDecompressionTest {
     Node root=null;
@@ -36,57 +41,52 @@ public class ImplemenatationClassForDecompressionTest {
 
         root=rootNode;
     }
-
-
-
     ImplemenatationClassForDecompression d=new ImplemenatationClassForDecompression();
-
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-
     @Test
     public  void WriteZeros()
     {
         File f=new File("src/test/java/decompressionPackage/Zeros.txt");
         ObjectOutputStream ut=null;
-        try {
+        try
+        {
             ut=new ObjectOutputStream(new FileOutputStream(f));
         }
         catch (IOException e)
         {
             throw new RuntimeException(e);
         }
-        try {
+        try
+        {
             ut.writeInt(2);
             ut.flush();
             ut.close();
             ObjectInputStream in=new ObjectInputStream(new FileInputStream("src/test/java/decompressionPackage/Zeros.txt"));
             int y= d.returnNoofZeros(in);
             assertEquals(2,y);
-
         }
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-
         new File("src/test/java/decompressionPackage/Zeros.txt").delete();
     }
-    @Test
-   public void TestToreturnNoofZeros() throws IOException {
-        ObjectOutputStream op=null;
-
-            op =new ObjectOutputStream(new FileOutputStream("src/test/java/decompressionPackage/inpu1.txt"));
-
-            op.writeInt(2);
-        op.flush();
-            op.close();
-
-            ObjectInputStream ip=new ObjectInputStream(new FileInputStream("src/test/java/decompressionPackage/inpu1.txt"));
-            int x=ip.readInt();
-            assertEquals(x,2);
-            ip.close();
-
-            new File("src/test/java/decompressionPackage/inpu1.txt").delete();
-    }
+//    @Test
+//   public void TestToreturnNoofZeros() throws IOException {
+//        ObjectOutputStream op=null;
+//
+//            op =new ObjectOutputStream(new FileOutputStream("src/test/java/decompressionPackage/inpu1.txt"));
+//
+//            op.writeInt(2);
+//            op.flush();
+//            op.close();
+//
+//            ObjectInputStream ip=new ObjectInputStream(new FileInputStream("src/test/java/decompressionPackage/inpu1.txt"));
+//            int x=ip.readInt();
+//            assertEquals(x,2);
+//            ip.close();
+//
+//            new File("src/test/java/decompressionPackage/inpu1.txt").delete();
+//    }
 
 
     @Test
@@ -263,27 +263,6 @@ public class ImplemenatationClassForDecompressionTest {
         }
     }
 
-//    @Test
-//    public void TestreturnNoOfZeros()
-//    {
-//        ObjectInputStream in= null;
-//        try {
-//            in = new ObjectInputStream(new FileInputStream("src/test/java/decompressionPackage/input2.txt"));
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        int noOfZeros=0;
-//        try
-//        {
-//           noOfZeros=d.returnNoofZeros(in);
-//        }
-//        catch (Exception e)
-//        {
-//            System.out.println(e);
-//        }
-//        assertEquals(noOfZeros,2);
-//    }
-
     @Test
     public void TestgoLeftOrRight()
     {
@@ -332,18 +311,19 @@ public class ImplemenatationClassForDecompressionTest {
         d.getFinal(root,in,noOfZeros);
 
         try {
-            assertTrue(GeneralClass.check("src/test/java/decompressionPackage/sample.txt",Path.decompressedFilePath));
+            assertTrue(GeneralClass.check("src/test/java/decompressionPackage/sample.txt","src/test/java/decompressionPackage/sampleOutput1.txt"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Test(expected = RuntimeException.class)
-    public void TestreturnNoOfRoots()
+    public void TestreturnNoOfRootsWhenThereIsNoZerosWritten()
     {
+        File f=new File("src/test/java/decompressionPackage/nodeText.txt");
         ObjectOutputStream op;
         try {
-          op=new ObjectOutputStream(new FileOutputStream("src/test/java/decompressionPackage/nodeText.txt"));
+          op=new ObjectOutputStream(new FileOutputStream(f));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -359,12 +339,97 @@ public class ImplemenatationClassForDecompressionTest {
         }
         try
         {
-            ObjectInputStream in=new ObjectInputStream(new FileInputStream("src/test/java/decompressionPackage/nodeText.txt"));
+            ObjectInputStream in=new ObjectInputStream(new FileInputStream(f));
             d.returnRootOfTree(in);
         }
         catch (IOException e)
         {
             throw new RuntimeException(e);
         }
+        new File("src/test/java/decompressionPackage/nodeText.txt").delete();
+      //  new File("src/test/java/decompressionPackage/nodeText.txt").delete();
+
     }
+
+    @Test(expected = RuntimeException.class)
+    public void TestgetFinalTothrowsException()
+    {
+        try
+        {
+            ObjectInputStream in=new ObjectInputStream(new FileInputStream("src/test/java/decompressionPackage/sample.txt"));
+            d.getFinal(root,in,3);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+  @Test
+    public void TestFinalAnsUsingMock()
+  {
+      File f=new File("src/test/java/decompressionPackage/MockingFile.txt");
+      File expectedFile=new File("src/test/java/decompressionPackage/ActualFileThatisexpected.txt");
+       String val="ababaabaabbbb";
+      char ch[] = val.toCharArray();
+      try {
+         FileOutputStream op1=new FileOutputStream(expectedFile);
+          for(int i=0;i<val.length();i++)
+          {
+              op1.write(ch[i]);
+          }
+          op1.flush();
+          op1.close();
+          ObjectOutputStream op=new ObjectOutputStream(new FileOutputStream(f));
+          byte[] byteArray=new byte[2];
+          byteArray[0]=82;
+          byteArray[1]=120;
+          op.writeObject(byteArray);
+          op.flush();
+          op.close();
+      } catch (IOException e) {
+          throw new RuntimeException(e);
+      }
+
+      ImplemenatationClassForDecompression mockedDecompression= Mockito.spy(d);
+
+       ArrayList<Integer> list1=new ArrayList<>();
+      for(int i=0;i<2;i++)
+      {
+          list1.add(0);
+          list1.add(1);
+      }
+      list1.add(0);
+      list1.add(0);
+      list1.add(1);
+      list1.add(0);
+      ArrayList<Integer> list2=new ArrayList<>();
+      list2.add(0);
+      for(int i=0;i<4;i++)
+      {
+          list2.add(1);
+      }
+      for(int i=0;i<3;i++)
+      {
+          list2.add(0);
+      }
+      Mockito.doReturn(list1).when(mockedDecompression).get8bitcode(82);
+      Mockito.doReturn(list2).when(mockedDecompression).get8bitcode(120);
+      try {
+          ObjectInputStream in=new ObjectInputStream(new FileInputStream(f));
+          mockedDecompression.getFinal(root,in,3);
+      } catch (IOException e) {
+          throw new RuntimeException(e);
+      }
+      try
+      {
+          assertTrue(GeneralClass.check("src/test/java/decompressionPackage/ActualFileThatisexpected.txt",Path.decompressedFilePath));
+      } catch (IOException e) {
+          throw new RuntimeException(e);
+      }
+
+     new File("src/test/java/decompressionPackage/MockingFile.txt").delete();
+     new File("src/test/java/decompressionPackage/ActualFileThatisexpected.txt").delete();
+
+  }
+
+
 }

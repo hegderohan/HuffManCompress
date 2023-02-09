@@ -50,9 +50,6 @@ public class GeneralClassTest {
         catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
         FileWriter f7=null;
         try {
             f7 =new FileWriter("src/test/java/generalPackage/test3.txt");
@@ -63,29 +60,28 @@ public class GeneralClassTest {
             throw new RuntimeException(e);
         }
 
-
-
-
     }
     @Test
     public void TestComparaion()
     {
-
-
-        try {
+        try
+        {
             assertTrue(GeneralClass.check("src/test/java/generalPackage/test.txt","src/test/java/generalPackage/test1.txt"));
-        } catch (IOException e) {
+        } catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
-
     }
 
     @Test
     public void TestComparaionfornegativeSituation()
     {
-        try {
+        try
+        {
             assertFalse(GeneralClass.check("src/test/java/generalPackage/test2.txt","src/test/java/generalPackage/test3.txt"));
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
     }
@@ -97,7 +93,6 @@ public class GeneralClassTest {
         new File("src/test/java/generalPackage/test1.txt").delete();
         new File("src/test/java/generalPackage/test2.txt").delete();
         new File("src/test/java/generalPackage/test3.txt").delete();
-
     }
 
 
