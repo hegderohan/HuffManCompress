@@ -21,11 +21,11 @@ public class HuffManCompressorAndDecompressor implements FileZipper
         Compress c = new ImplementationClassForCompression();
 
 
-        FileReader fileReader = c.readFile(Path.inputFilePath);
+        FileOperations fop=new ImplementationForFileOpearations(Path.inputFilePath);
 
         Map<Character, Integer> frequencyMap = null;
         try {
-            frequencyMap = c.calculateFreq(fileReader);
+            frequencyMap = c.calculateFreq(fop);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -41,7 +41,7 @@ public class HuffManCompressorAndDecompressor implements FileZipper
         try
         {
 
-            coded = c.getCodes(Path.inputFilePath,HuffMan_Map);
+            coded = c.getCodes(Path.inputFilePath,HuffMan_Map,fop);
 
         }
         catch (IOException e)

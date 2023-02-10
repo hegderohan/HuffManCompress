@@ -8,35 +8,18 @@ import generalPackage.*;
 public class ImplementationClassForCompression implements Compress
 {
     @Override
-    public FileReader readFile(String path)
-    {
-        FileReader fileReader;
-        try
-        {
-            fileReader=new FileReader(path);
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        }
-        return fileReader;
-    }
-
-    @Override
-    public Map<Character, Integer> calculateFreq(FileReader fileReader) throws IOException
+    public Map<Character, Integer> calculateFreq(FileOperations fileReader) throws IOException
     {
         Map<Character, Integer> frequencyMap = new HashMap<>();
         int c =0;
 
-            c = fileReader.read();
+        String ans=fileReader.readFile();
 
-        while (c != -1) {
-                frequencyMap.put((char)c,frequencyMap.getOrDefault((char)c,0)+1);
-                c = fileReader.read();
+        for(char x:ans.toCharArray())
+        {
+            frequencyMap.put(x,frequencyMap.getOrDefault(x,0)+1);
         }
-            fileReader.close();
-
-            return frequencyMap;
+        return  frequencyMap;
     }
     @Override
     public Node addElementIntoQueueAndReturnRoot(Map<Character, Integer> frequencyMap)
@@ -69,7 +52,7 @@ public class ImplementationClassForCompression implements Compress
                 pq.poll();
             Node newNode = new Node();
                 newNode.setFrequency(leftSideNode.getFrequency() + rightSideNode.getFrequency());
-                newNode.setVar(' ');
+                newNode.setVar('-');
                 newNode.setLeft(leftSideNode);
                 newNode.setRight(rightSideNode);
             root = newNode;
@@ -90,18 +73,14 @@ public class ImplementationClassForCompression implements Compress
     }
 //
     @Override
-    public StringBuilder getCodes(String inputFilePath, Map<Character, String> huffmanMap) throws IOException{
+    public StringBuilder getCodes(String inputFilePath, Map<Character, String> huffmanMap,FileOperations fobj) throws IOException{
        FileReader fileReader=null;
         StringBuilder ans=new StringBuilder();
-
-            fileReader = new FileReader(inputFilePath);
-        int c= 0;
-            c = fileReader.read();
-        while(c!=-1) {
-            ans.append((huffmanMap.get((char)c)));
-                c= fileReader.read();
+        String curr=fobj.readFile();
+        for(char x:curr.toCharArray())
+        {
+            ans.append(huffmanMap.get(x));
         }
-            fileReader.close();
         return ans;
     }
     public int noofZerosToBeAppended(StringBuilder coded)
@@ -122,6 +101,7 @@ public class ImplementationClassForCompression implements Compress
                 rem--;
             }
         }
+        //System.out.println(coded);
         return coded;
     }
     @Override
