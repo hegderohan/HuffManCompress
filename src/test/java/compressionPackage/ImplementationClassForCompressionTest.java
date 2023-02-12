@@ -201,10 +201,6 @@ public class ImplementationClassForCompressionTest
         assertEquals(returnedNode.getLeft().getVar(),'a');
         assertEquals(returnedNode.getLeft().getFrequency(),7);
     }
-
-
-
-
     @Test
     public void TestappendREianingZeros2()
     {
@@ -212,7 +208,6 @@ public class ImplementationClassForCompressionTest
        StringBuilder returnedString=c.appendRemainingZeros(inputString);
        assertEquals("00001000",returnedString.toString());
     }
-
 
     @Test
     public void TestappendREianingZeros1()
@@ -229,9 +224,6 @@ public class ImplementationClassForCompressionTest
         StringBuilder returnedString=c.appendRemainingZeros(inputString);
         assertEquals("",returnedString.toString());
     }
-
-
-
 
 @Test
     public void TestgetCodeForPositiveCase()

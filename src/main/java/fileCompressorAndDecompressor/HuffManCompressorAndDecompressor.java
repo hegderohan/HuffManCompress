@@ -58,7 +58,7 @@ public class HuffManCompressorAndDecompressor implements FileZipper
             int noOfZeros=inStream.readInt();
             byte[] byteArray= (byte[])inStream.readObject();
             StringBuilder decoded=d.getDecodedString(byteArray);
-            d.getFinal(root,decoded,noOfZeros);
+            d.writeIntoDecompressedFile(root,decoded,noOfZeros);
 
         }
         catch (IOException | ClassNotFoundException e)

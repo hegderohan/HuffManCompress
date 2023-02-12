@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import generalPackage.*;
 
-import javax.jws.soap.SOAPBinding;
 
 public class ImplemenatationClassForDecompression implements Decompress
 {
@@ -57,6 +56,7 @@ public class ImplemenatationClassForDecompression implements Decompress
         StringBuilder decoded = new StringBuilder();
 
         for (byte x : byteArray) {
+
             int val = x;
             ArrayList<Integer> newip = null;
             newip = this.get8bitcode(val < 0 ? val + 256 : val);
@@ -69,34 +69,25 @@ public class ImplemenatationClassForDecompression implements Decompress
     }
 
     @Override
-    public void getFinal(Node root,StringBuilder decoded,int no_of_zeros)
+    public void writeIntoDecompressedFile(Node root, StringBuilder decoded, int no_of_zeros) throws IOException
     {
-
+     //01101000
         Node head=root;
-        try
-        {
-            FileWriter fileWriter=new FileWriter(Path.decompressedFilePath);
-            for(int i=0;i<decoded.length()-no_of_zeros;i++)
-            {
-                char cc=(decoded.charAt(i));
-                Node newNode=goLeftorRightAndReturnNode(root,cc);
-                if(newNode.left==null && newNode.right==null)
+            FileWriter fileWriter = new FileWriter(Path.decompressedFilePath);
+            for (int i = 0; i < decoded.length() - no_of_zeros; i++) {
+                char cc = (decoded.charAt(i));
+                Node newNode = goLeftorRightAndReturnNode(root, cc);
+                if (newNode.left == null && newNode.right == null)
                 {
-
                     fileWriter.write(newNode.var);
-                    root=head;
+                    root = head;
                 }
                 else
                 {
-                    root=newNode;
+                    root = newNode;
                 }
             }
             fileWriter.close();
-        }
-        catch (IOException e)
-        {
-            throw new RuntimeException(e);
-        }
 
     }
 }

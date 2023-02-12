@@ -1,9 +1,9 @@
 package decompressionPackage;
 
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import generalPackage.Node;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
 public interface Decompress
@@ -11,6 +11,6 @@ public interface Decompress
     ArrayList<Integer> get8bitcode(int val) throws RuntimeException;
     Node goLeftorRightAndReturnNode(Node root,char val);
     StringBuilder getDecodedString(byte[] byteArray);
-    void getFinal(Node root,StringBuilder decoded,int no_of_zeros);
+    void writeIntoDecompressedFile(Node root, StringBuilder decoded, int no_of_zeros) throws IOException;
 
 }
