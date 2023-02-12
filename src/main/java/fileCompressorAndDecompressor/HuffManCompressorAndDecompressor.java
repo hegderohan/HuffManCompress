@@ -4,7 +4,6 @@ import compressionPackage.Compress;
 import compressionPackage.ImplementationClassForCompression;
 import decompressionPackage.Decompress;
 import decompressionPackage.ImplemenatationClassForDecompression;
-import fileCompressorAndDecompressor.FileZipper;
 import generalPackage.Node;
 import generalPackage.Path;
 
@@ -20,51 +19,31 @@ public class HuffManCompressorAndDecompressor implements FileZipper
     {
         Compress c = new ImplementationClassForCompression();
 
+        IFileReader fop=new ImplementationForFileOpearations(Path.inputFilePath);
 
-        FileOperations fop=new ImplementationForFileOpearations(Path.inputFilePath);
-
-        Map<Character, Integer> frequencyMap = null;
-        try {
-            frequencyMap = c.calculateFreq(fop);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        Node root = c.addElementIntoQueueAndReturnRoot(frequencyMap);
-
-        Map<Character,String> HuffMan_Map=new HashMap<>();
-
-        c.iterateTreeAndCalculateHuffManCode(root, "",HuffMan_Map);
-
-
-        StringBuilder coded=new StringBuilder();
         try
         {
-
-            coded = c.getCodes(Path.inputFilePath,HuffMan_Map,fop);
-
-        }
-        catch (IOException e)
-        {
-            System.out.println(e);
-        }
-
-        int noOfZerosAppended =c.noofZerosToBeAppended(coded);
-
-        if(noOfZerosAppended !=0)
-        {
-            coded = c.appendRemainingZeros(coded);
-        }
-        try
-        {
-            c.compress(coded,root,noOfZerosAppended);
+            Map<Character, Integer> frequencyMap = c.calculateFreq(fop);
+            Node root = c.addElementIntoQueueAndReturnRoot(frequencyMap);
+            Map<Character,String> HuffMan_Map=new HashMap<>();
+            c.iterateTreeAndCalculateHuffManCode(root, "",HuffMan_Map);
+            StringBuilder coded=c.getCodes(Path.inputFilePath,HuffMan_Map,fop);
+            int noOfZerosAppended =c.noofZerosToBeAppended(coded);
+            if(noOfZerosAppended !=0)
+            {
+                coded = c.appendRemainingZeros(coded);
+            }
+            byte[] byteArray=c.compress(coded);
+            ObjectOutputStream outStream=new ObjectOutputStream(new FileOutputStream(Path.compressedFilePath));
+            outStream.writeObject(root);
+            outStream.writeInt(noOfZerosAppended);
+            outStream.writeObject(byteArray);
+            outStream.close();
         }
         catch (IOException e)
         {
             throw new RuntimeException(e);
         }
-
-
         System.out.println("Compression done Successfully");
     }
 
@@ -73,30 +52,39 @@ public class HuffManCompressorAndDecompressor implements FileZipper
     {
         Decompress d = new ImplemenatationClassForDecompression();
 
-
-          ObjectInputStream in= null;
         try
         {
-            in = new ObjectInputStream(new FileInputStream(Path.compressedFilePath));
+            ObjectInputStream inStream = new ObjectInputStream(new FileInputStream(Path.compressedFilePath));
+            Node root=(Node) inStream.readObject();
+            int noOfZeros=inStream.readInt();
+            byte[] byteArray= (byte[])inStream.readObject();
+            StringBuilder decoded=d.getDecodedString(byteArray);
+            d.getFinal(root,decoded,noOfZeros);
+          //  StringBuilder decompresssedString=d.getFinal(root,byteArray,noOfZeros);
+          //  FileWriter fout=new FileWriter(new File(Path.decompressedFilePath));
+           // fout.write(decompresssedString.toString());
+            //ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream(Path.decompressedFilePath));
+
+
         }
-        catch (IOException e)
+        catch (IOException | ClassNotFoundException e)
         {
             throw new RuntimeException(e);
         }
 
-       Node root=d.returnRootOfTree(in);
+    //   Node root=d.returnRootOfTree(in);
 
-        int no_of_Zeros=0;
-        try {
-           no_of_Zeros=d.returnNoofZeros(in);
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
+//        int no_of_Zeros=0;
+//        try {
+//           no_of_Zeros=d.returnNoofZeros(in);
+//        }
+//        catch (Exception e)
+//        {
+//            System.out.println(e);
+//        }
 
 
-       d.getFinal(root,in,no_of_Zeros);
+
 
         System.out.println("De-Compression done Successfully");
 

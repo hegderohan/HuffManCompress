@@ -72,36 +72,48 @@ public class ImplemenatationClassForDecompression implements Decompress{
             return root;
         }
     }
+
     @Override
-    public void getFinal(Node root,ObjectInputStream in,int no_of_zeros)
+    public StringBuilder getDecodedString(byte[] byteArray)
     {
-        byte[] byteArray;
-        try
-        {
-            byteArray= (byte[]) in.readObject();
-            in.close();
-            StringBuilder decoded=new StringBuilder();
-           // System.out.println(decoded);
-            for(byte x:byteArray)
-            {
-                int val=x;
-                ArrayList<Integer> newip = null;
-                newip = this.get8bitcode(val<0?val+256:val);
-                for (int m = 0; m < 8; m++)
-                {
-                    decoded.append(newip.get(m));
-                }
+        StringBuilder decoded = new StringBuilder();
+
+        for (byte x : byteArray) {
+            int val = x;
+            ArrayList<Integer> newip = null;
+            newip = this.get8bitcode(val < 0 ? val + 256 : val);
+            for (int m = 0; m < 8; m++) {
+                decoded.append(newip.get(m));
             }
+        }
+
+        return decoded;
+    }
+
+    @Override
+    public void getFinal(Node root,StringBuilder decoded,int no_of_zeros)
+    {
+
             Node head=root;
+
             FileWriter fileWriter= null;
+        try {
             fileWriter = new FileWriter(Path.decompressedFilePath);
-            for(int i=0;i<decoded.length()-no_of_zeros;i++)
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for(int i=0;i<decoded.length()-no_of_zeros;i++)
             {
                 char cc=(decoded.charAt(i));
                 Node newNode=goLeftorRightAndReturnNode(root,cc);
                 if(newNode.left==null && newNode.right==null)
                 {
-                    fileWriter.write(newNode.var);
+                    try {
+                        fileWriter.write(newNode.var);
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+                    //  finalAns.append(newNode.var);
                     root=head;
                 }
                 else
@@ -109,11 +121,18 @@ public class ImplemenatationClassForDecompression implements Decompress{
                     root=newNode;
                 }
             }
-                fileWriter.close();
-        }
-        catch (IOException | ClassNotFoundException e)
-        {
+          //  return finalAns;
+        try {
+            fileWriter.close();
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+//        catch (IOException | ClassNotFoundException e)
+//        {
+//            throw new RuntimeException(e);
+//        }
+
+
     }
 }

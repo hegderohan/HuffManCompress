@@ -1,14 +1,14 @@
 package compressionPackage;
 
 import generalPackage.Node;
-import compressionPackage.*;
+
 import java.io.*;
 import java.util.*;
 import generalPackage.*;
 public class ImplementationClassForCompression implements Compress
 {
     @Override
-    public Map<Character, Integer> calculateFreq(FileOperations fileReader) throws IOException
+    public Map<Character, Integer> calculateFreq(IFileReader fileReader) throws IOException
     {
         Map<Character, Integer> frequencyMap = new HashMap<>();
         int c =0;
@@ -73,7 +73,7 @@ public class ImplementationClassForCompression implements Compress
     }
 //
     @Override
-    public StringBuilder getCodes(String inputFilePath, Map<Character, String> huffmanMap,FileOperations fobj) throws IOException{
+    public StringBuilder getCodes(String inputFilePath, Map<Character, String> huffmanMap, IFileReader fobj) throws IOException{
        FileReader fileReader=null;
         StringBuilder ans=new StringBuilder();
         String curr=fobj.readFile();
@@ -105,7 +105,7 @@ public class ImplementationClassForCompression implements Compress
         return coded;
     }
     @Override
-    public void compress(StringBuilder coded, Node root, int noOfZeros) throws IOException
+    public byte[] compress(StringBuilder coded) throws IOException
     {
         byte[] bytearray = new byte[coded.length() / 8];
         StringBuilder sub =new StringBuilder();
@@ -120,6 +120,9 @@ public class ImplementationClassForCompression implements Compress
             bytearrayIndex++;
             sub.setLength(0);
         }
+
+        return bytearray;
+        /*
         ObjectOutputStream obj=null;
 
         ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(Path.compressedFilePath));
@@ -127,5 +130,7 @@ public class ImplementationClassForCompression implements Compress
        out.writeInt(noOfZeros);
        out.writeObject(bytearray);
         out.close();
+
+         */
     }
 }

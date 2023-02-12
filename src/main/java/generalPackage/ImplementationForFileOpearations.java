@@ -2,7 +2,7 @@ package generalPackage;
 
 import java.io.*;
 
-public class ImplementationForFileOpearations implements FileOperations{
+public class ImplementationForFileOpearations implements IFileReader {
     File filObj;
 
     public ImplementationForFileOpearations(String path)

@@ -1,8 +1,6 @@
 package generalPackage;
 
-import java.io.File;
-
-public interface FileOperations {
+public interface IFileReader {
 
     public String readFile();
 

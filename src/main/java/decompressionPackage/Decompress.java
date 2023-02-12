@@ -13,6 +13,7 @@ public interface Decompress
     int returnNoofZeros(ObjectInputStream ip) throws IOException;
     ArrayList<Integer> get8bitcode(int val) throws RuntimeException;
     Node goLeftorRightAndReturnNode(Node root,char val);
-    void getFinal(Node root,ObjectInputStream in,int no_of_zeros);
+    StringBuilder getDecodedString(byte[] byteArray);
+    void getFinal(Node root,StringBuilder decoded,int no_of_zeros);
 
 }
