@@ -9,30 +9,8 @@ import generalPackage.*;
 
 import javax.jws.soap.SOAPBinding;
 
-public class ImplemenatationClassForDecompression implements Decompress{
-
-
-    @Override
-    public Node returnRootOfTree(ObjectInputStream in)
-    {
-            Node root=null;
-            try
-            {
-                root=(Node)in.readObject();
-            }
-            catch(Exception e)
-            {
-               throw new RuntimeException(e);
-            }
-            return root;
-    }
-    @Override
-    public int returnNoofZeros(ObjectInputStream ip) throws IOException
-    {
-        int no_of_Zeros=0;
-        no_of_Zeros=ip.readInt();
-        return no_of_Zeros;
-    }
+public class ImplemenatationClassForDecompression implements Decompress
+{
     @Override
     public ArrayList<Integer> get8bitcode(int val)
     {
@@ -94,26 +72,18 @@ public class ImplemenatationClassForDecompression implements Decompress{
     public void getFinal(Node root,StringBuilder decoded,int no_of_zeros)
     {
 
-            Node head=root;
-
-            FileWriter fileWriter= null;
-        try {
-            fileWriter = new FileWriter(Path.decompressedFilePath);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        for(int i=0;i<decoded.length()-no_of_zeros;i++)
+        Node head=root;
+        try
+        {
+            FileWriter fileWriter=new FileWriter(Path.decompressedFilePath);
+            for(int i=0;i<decoded.length()-no_of_zeros;i++)
             {
                 char cc=(decoded.charAt(i));
                 Node newNode=goLeftorRightAndReturnNode(root,cc);
                 if(newNode.left==null && newNode.right==null)
                 {
-                    try {
-                        fileWriter.write(newNode.var);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    //  finalAns.append(newNode.var);
+
+                    fileWriter.write(newNode.var);
                     root=head;
                 }
                 else
@@ -121,18 +91,12 @@ public class ImplemenatationClassForDecompression implements Decompress{
                     root=newNode;
                 }
             }
-          //  return finalAns;
-        try {
             fileWriter.close();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new RuntimeException(e);
         }
-
-//        catch (IOException | ClassNotFoundException e)
-//        {
-//            throw new RuntimeException(e);
-//        }
-
 
     }
 }

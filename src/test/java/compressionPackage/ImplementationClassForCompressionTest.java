@@ -1,6 +1,6 @@
 package compressionPackage;
-import generalPackage.Node;
-import generalPackage.Path;
+import generalPackage.*;
+import javafx.scene.control.Tab;
 import org.junit.Before;
 import org.junit.Test;
 import java.io.*;
@@ -9,14 +9,11 @@ import java.util.Map;
 import static org.junit.Assert.*;
 
 
-public class ImplementationClassForCompressionTest {
-    /*
+public class ImplementationClassForCompressionTest
+{
+
     ImplementationClassForCompression c=new ImplementationClassForCompression();
-
-    StringBuilder coded=new StringBuilder("1010101110111100");
-    Node root=null;
-
-    int no_of_zeros=1;
+      Node root=null;
 
     @Before
     public void beforeTest()
@@ -40,6 +37,45 @@ public class ImplementationClassForCompressionTest {
 
         root=rootNode;
     }
+
+    @Test
+    public void testFrequencyMapForPosistiveCondition()
+    {
+        IFileReader iFile=new ImplemenationClassForFileDuringTesting("zzaaabbcd");
+        Map<Character,Integer> returnedFrequencyMap=c.calculateFreq(iFile);
+        Map<Character,Integer> expectedMap=new HashMap<>();
+        expectedMap.put('a',3);
+        expectedMap.put('b',2);
+        expectedMap.put('c',1);
+        expectedMap.put('d',1);
+        expectedMap.put('z',2);
+        assertEquals(expectedMap,returnedFrequencyMap);
+    }
+
+    @Test
+    public void testFrequencyMapForEmptyCondition()
+    {
+        IFileReader iFile=new ImplemenationClassForFileDuringTesting("");
+        Map<Character,Integer> returnedFrequencyMap=c.calculateFreq(iFile);
+        assertTrue(returnedFrequencyMap.isEmpty());
+    }
+
+    @Test
+    public void testFrequencyMapForSpecialCharacters()
+    {
+        IFileReader iFile=new ImplemenationClassForFileDuringTesting("eerg™");
+        Map<Character,Integer> returnedFrequencyMap=c.calculateFreq(iFile);
+        Map<Character,Integer> expectedMap=c.calculateFreq(iFile);
+        expectedMap.put('™',1);
+        expectedMap.put('e',2);
+        expectedMap.put('r',1);
+        assertEquals(returnedFrequencyMap,expectedMap);
+    }
+
+
+
+
+
     @Test
     public void TestZerosToBeappended()
     {
@@ -71,104 +107,74 @@ public class ImplementationClassForCompressionTest {
         assertEquals(0,c.noofZerosToBeAppended(str));
     }
 
+
     @Test
-    public void TestForFrequencyMap()
+    public void TestIterateTreeAndCalcuateHuffManMap_ForPositiveCase()
     {
-        FileReader fileReaderFortheSameFile;
-        FileWriter fileWriterForInputFile=null;
-        try
-        {
-            fileWriterForInputFile=new FileWriter("src/test/java/compressionPackage/test1.txt");
-        }
-        catch(FileNotFoundException e)
-        {
-            System.out.println(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        try {
-            fileWriterForInputFile.write("aabbbc");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            fileWriterForInputFile.flush();
-            fileWriterForInputFile.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try
-        {
-            fileReaderFortheSameFile = new FileReader("src/test/java/compressionPackage/test1.txt");
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        }
-        Map<Character,Integer> actualMap= null;
-        try {
-            actualMap = c.calculateFreq(fileReaderFortheSameFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        Map<Character,Integer> expectedMap=new HashMap<>();
-        expectedMap.put('a',2);
-        expectedMap.put('b',3);
-        expectedMap.put('c',1);
-        assertEquals(expectedMap,actualMap);
-        new File("src/test/java/compressionPackage/test1.txt").delete();
+        String ans="";
+        Map<Character,String> HuffmanMap=new HashMap<>();
+        c.iterateTreeAndCalculateHuffManCode(root,ans,HuffmanMap);
+        Map<Character,String> expectedMap=new HashMap<>();
+        expectedMap.put('a',"0");
+        expectedMap.put('b',"1");
+        assertEquals(HuffmanMap,expectedMap);
     }
 
-    @Test(expected = RuntimeException.class)
-    public void TestFrequencyMap1()
+    @Test
+    public void TestIterateTreeAndCalculateHuffManMap_ForNullEmpty()
     {
-        FileReader fileReader;
-        try
-        {
-            fileReader = new FileReader("src/test/java/compressionPackage/empty.txt");
-        }
-        catch (FileNotFoundException e)
-        {
-            throw new RuntimeException(e);
-        }
-//
-//        Map<Character,Integer> actualMap=new HashMap<>();
-//        Map<Character,Integer> expectedMap= null;
-//        try {
-//            expectedMap = c.calculateFreq(fileReader);
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
-//        assertEquals(actualMap,expectedMap);
-      new File("src/test/java/compressionPackage/empty.txt").delete();
+       String ans="";
+       Node root=null;
+       Map<Character,String> HuffmanMap=new HashMap<>();
+        c.iterateTreeAndCalculateHuffManCode(root,ans,HuffmanMap);
+        assertTrue(HuffmanMap.isEmpty());
     }
 
-
-    @Test(expected = RuntimeException.class)
-    public void TestFrequencyMap2()
+    @Test
+    public void TestIterateTreeAndCalcuateHUffManMap_ForSingleNode()
     {
-        FileReader fileReader = null;
-        try
-        {
-         fileReader=new FileReader("src/test/java/compressionPackage/invalid.txt");
-        }
-        catch (FileNotFoundException e)
-        {
-            System.out.println(e);
-        }
-        try
-        {
-            Map<Character,Integer> expectedMap=c.calculateFreq(fileReader);
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String ans="";
+        Node singleNode =new Node();
+        singleNode.setRight(null);
+        singleNode.setLeft(null);
+        singleNode.setVar('a');
+        singleNode.setFrequency(2);
+
+        Map<Character,String> huffManMap=new HashMap<>();
+        c.iterateTreeAndCalculateHuffManCode(singleNode,ans,huffManMap);
+       Map<Character,String> expectedHUffManMap=new HashMap<>();
+       expectedHUffManMap.put('a',"");
+       assertEquals(huffManMap,expectedHUffManMap);
+    }
+
+    @Test
+    public void TestCompressMethodForPositiveCase()
+    {
+        StringBuilder inputString=new StringBuilder("0101001001111000");
+        byte[] byteArray=c.compress(inputString);
+        assertEquals(byteArray[0],82);
+        assertEquals(byteArray[1],120);
+    }
+
+    @Test
+    public void TestCompressMethodForEmmptyCase()
+    {
+        StringBuilder inputString=new StringBuilder("");
+        byte[] byteArray=c.compress(inputString);
+        assertTrue(byteArray.length==0);
+    }
+
+    @Test
+    public void TestCompressMethodForPositiveCase1()
+    {
+        StringBuilder inputString=new StringBuilder("01010010");
+        byte[] byteArray=c.compress(inputString);
+        assertEquals(byteArray[0],82);
 
     }
 
     @Test
-    public void TestAddElementsintoQueueAndReturnRoot()
+    public void testAddElementsintoQueueAndReturnRoot_ForPositivecondition()
     {
         Map<Character,Integer> InputMap=new HashMap<>();
 
@@ -187,15 +193,15 @@ public class ImplementationClassForCompressionTest {
     }
 
     @Test
-    public void TestAddElementsintoQueueAndReturnRoot1()
+    public void TestAddElementsintoQueueAndReturnRoot_ForSingleNode()
     {
         Map<Character,Integer> InputMap=new HashMap<>();
         InputMap.put('a',7);
         Node returnedNode=c.addElementIntoQueueAndReturnRoot(InputMap);
         assertEquals(returnedNode.getLeft().getVar(),'a');
         assertEquals(returnedNode.getLeft().getFrequency(),7);
-
     }
+
 
 
 
@@ -227,155 +233,30 @@ public class ImplementationClassForCompressionTest {
 
 
 
-    @Test(expected = RuntimeException.class)
-    public void testReadFile()
+@Test
+    public void TestgetCodeForPositiveCase()
     {
-        String path="invalidpath.txt";
-       FileReader returnedFileReader= c.readFile(path);
+        Map<Character,String> huffManMap=new HashMap<>();
+        huffManMap.put('h',"10");
+        huffManMap.put('o',"111");
+        huffManMap.put('m',"01");
+        huffManMap.put('i',"00");
+        huffManMap.put('e',"110");
+        IFileReader ifile=new ImplemenationClassForFileDuringTesting("homie");
+        StringBuilder returnedStringBuilder=c.getCodes(huffManMap,ifile);
+        StringBuilder expectedStringBuilder=new StringBuilder("101110100110");
+        assertEquals(returnedStringBuilder.toString(),expectedStringBuilder.toString());
     }
-
-     @Test(expected = RuntimeException.class)
-     public void TestFrequencymap() {
-         FileReader f1;
-         try {
-             f1 = new FileReader("invalid.txt");
-         } catch (FileNotFoundException e) {
-             throw new RuntimeException(e);
-         }
-         try {
-             Map<Character, Integer> frequecyMap = c.calculateFreq(f1);
-         } catch (IOException e) {
-             throw new RuntimeException(e);
-         }
-
-     }
-
-    @Test(expected = RuntimeException.class)
-    public void testReadFile1()
-    {
-        String path="src/test/java/compressionPackage/empty.txt";
-        FileReader returnedFileReader=c.readFile(path);
-    }
-
-
-   @Test
-   public void TestCreateHuffManMap()
-   {
-       Map<Character,String> paraMap=new HashMap<>();
-       c.iterateTreeAndCalculateHuffManCode(root,"",paraMap);
-       boolean flag=true;
-       Map<Character,String> expectedMap=new HashMap<>();
-       expectedMap.put('a',"0");
-       expectedMap.put('b',"1");
-      assertTrue(paraMap.equals(expectedMap));
-   }
 
     @Test
-    public void TestCompressMethod()
+    public void TestgetCodesForCase_ThereisNoMatchBetweenInputAndMap()
     {
-        try {
-            c.compress(coded,root,no_of_zeros);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        ObjectInputStream in=null;
-        try {
-           in =new ObjectInputStream(new FileInputStream(Path.compressedFilePath));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            Node root=(Node)in.readObject();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        System.out.println(root.getLeft().getFrequency());
-
+        Map<Character,String> huffManMap=new HashMap<>();
+        StringBuilder expected = new StringBuilder("null");
+        huffManMap.put('a',"0");
+        IFileReader iFile=new ImplemenationClassForFileDuringTesting("A");
+       StringBuilder result= c.getCodes(huffManMap,iFile);
+        assertTrue(expected.toString().equals(result.toString()));
     }
 
-   @Test
-    public void testgetCodes()
-   {
-       FileWriter f2;
-       try {
-           f2=new FileWriter("src/test/java/compressionPackage/input.txt");
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-       try {
-           f2.write("ROHAN");
-           f2.flush();
-           f2.close();
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-       Map<Character,String> huffmanMap=new HashMap<>();
-
-       huffmanMap.put('R',"10");
-       huffmanMap.put('O',"111");
-       huffmanMap.put('H',"01");
-       huffmanMap.put('A',"00");
-       huffmanMap.put('N',"110");
-
-       StringBuilder coded=new StringBuilder();
-       try {
-          coded=c.getCodes("src/test/java/compressionPackage/input.txt",huffmanMap);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-       System.out.println(coded);
-       String c=coded.toString();
-       assertTrue(c.equals("101110100110"));
-       new File("src/test/java/compressionPackage/input.txt").delete();
-   }
-
-
-   @Test
-    public void TestCompress()
-   {
-       StringBuilder coded=new StringBuilder("0101001001111000");
-       int noofZeros=3;
-       try {
-           c.compress(coded,root,noofZeros);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-
-       ObjectInputStream ip=null;
-       try {
-           ip=new ObjectInputStream(new FileInputStream(Path.compressedFilePath));
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       }
-       try {
-           Node root=(Node)ip.readObject();
-           int x=ip.readInt();
-           byte[] arr=(byte[])ip.readObject();
-//          for(byte b:arr)
-//          {
-//              System.out.println(b);
-//          }
-          boolean flag=true;
-
-           byte[] arr1={82,120};
-          assertTrue("length must be same",arr.length==arr1.length);
-          for(int i=0;i<arr.length;i++)
-          {
-              if(arr1[i]!=arr[i])
-              {
-                  flag=false;
-                  break;
-              }
-          }
-          assertTrue(flag);
-       } catch (IOException e) {
-           throw new RuntimeException(e);
-       } catch (ClassNotFoundException e) {
-           throw new RuntimeException(e);
-       }
-
-   }
-*/
 }

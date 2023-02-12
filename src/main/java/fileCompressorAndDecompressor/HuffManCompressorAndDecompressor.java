@@ -20,14 +20,13 @@ public class HuffManCompressorAndDecompressor implements FileZipper
         Compress c = new ImplementationClassForCompression();
 
         IFileReader fop=new ImplementationForFileOpearations(Path.inputFilePath);
-
         try
         {
             Map<Character, Integer> frequencyMap = c.calculateFreq(fop);
             Node root = c.addElementIntoQueueAndReturnRoot(frequencyMap);
             Map<Character,String> HuffMan_Map=new HashMap<>();
             c.iterateTreeAndCalculateHuffManCode(root, "",HuffMan_Map);
-            StringBuilder coded=c.getCodes(Path.inputFilePath,HuffMan_Map,fop);
+            StringBuilder coded=c.getCodes(HuffMan_Map,fop);
             int noOfZerosAppended =c.noofZerosToBeAppended(coded);
             if(noOfZerosAppended !=0)
             {
@@ -60,11 +59,6 @@ public class HuffManCompressorAndDecompressor implements FileZipper
             byte[] byteArray= (byte[])inStream.readObject();
             StringBuilder decoded=d.getDecodedString(byteArray);
             d.getFinal(root,decoded,noOfZeros);
-          //  StringBuilder decompresssedString=d.getFinal(root,byteArray,noOfZeros);
-          //  FileWriter fout=new FileWriter(new File(Path.decompressedFilePath));
-           // fout.write(decompresssedString.toString());
-            //ObjectOutputStream outputStream=new ObjectOutputStream(new FileOutputStream(Path.decompressedFilePath));
-
 
         }
         catch (IOException | ClassNotFoundException e)

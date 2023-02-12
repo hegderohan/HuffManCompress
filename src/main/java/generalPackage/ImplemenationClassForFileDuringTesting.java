@@ -1,15 +1,15 @@
 package generalPackage;
 
-public class ImplementationClassForFileDecompresson implements IFileReader {
+public class ImplemenationClassForFileDuringTesting implements IFileReader {
     StringBuilder testingCotent;
 
-    ImplementationClassForFileDecompresson(String source)
+    public ImplemenationClassForFileDuringTesting(String source)
     {
-
         testingCotent=new StringBuilder(source);
     }
     @Override
-    public String readFile() {
+    public String readFile()
+    {
        return testingCotent.toString();
     }
 }

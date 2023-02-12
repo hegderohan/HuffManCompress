@@ -8,7 +8,7 @@ import generalPackage.*;
 public class ImplementationClassForCompression implements Compress
 {
     @Override
-    public Map<Character, Integer> calculateFreq(IFileReader fileReader) throws IOException
+    public Map<Character, Integer> calculateFreq(IFileReader fileReader)
     {
         Map<Character, Integer> frequencyMap = new HashMap<>();
         int c =0;
@@ -25,7 +25,8 @@ public class ImplementationClassForCompression implements Compress
     public Node addElementIntoQueueAndReturnRoot(Map<Character, Integer> frequencyMap)
     {
         PriorityQueue<Node> pq = new PriorityQueue<>(frequencyMap.size(), new FrequencyComparator());
-        for (Map.Entry<Character, Integer> entry : frequencyMap.entrySet()) {
+        for (Map.Entry<Character, Integer> entry : frequencyMap.entrySet())
+        {
             Node nd = new Node();
             nd.setVar((entry.getKey()));
             nd.setFrequency(entry.getValue());
@@ -71,10 +72,10 @@ public class ImplementationClassForCompression implements Compress
         iterateTreeAndCalculateHuffManCode(newNode.getLeft(),s+"0",huffmanMap);
         iterateTreeAndCalculateHuffManCode(newNode.getRight(),s+"1",huffmanMap);
     }
-//
+
     @Override
-    public StringBuilder getCodes(String inputFilePath, Map<Character, String> huffmanMap, IFileReader fobj) throws IOException{
-       FileReader fileReader=null;
+    public StringBuilder getCodes(Map<Character, String> huffmanMap, IFileReader fobj)
+    {
         StringBuilder ans=new StringBuilder();
         String curr=fobj.readFile();
         for(char x:curr.toCharArray())
@@ -94,18 +95,18 @@ public class ImplementationClassForCompression implements Compress
     @Override
     public StringBuilder appendRemainingZeros(StringBuilder coded) {
         int rem = coded.length() % 8;
-        if (rem != 0) {
+        if (rem != 0)
+        {
             rem = 8 - rem;
             while (rem != 0) {
                 coded=coded.append("0");
                 rem--;
             }
         }
-        //System.out.println(coded);
         return coded;
     }
     @Override
-    public byte[] compress(StringBuilder coded) throws IOException
+    public byte[] compress(StringBuilder coded)
     {
         byte[] bytearray = new byte[coded.length() / 8];
         StringBuilder sub =new StringBuilder();
@@ -120,17 +121,6 @@ public class ImplementationClassForCompression implements Compress
             bytearrayIndex++;
             sub.setLength(0);
         }
-
         return bytearray;
-        /*
-        ObjectOutputStream obj=null;
-
-        ObjectOutputStream out=new ObjectOutputStream(new FileOutputStream(Path.compressedFilePath));
-        out.writeObject(root);
-       out.writeInt(noOfZeros);
-       out.writeObject(bytearray);
-        out.close();
-
-         */
     }
 }

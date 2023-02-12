@@ -8,13 +8,11 @@ import java.util.Map;
 
 public interface Compress
 {
-
-    Map<Character,Integer> calculateFreq(IFileReader fileReader) throws IOException;
+    Map<Character,Integer> calculateFreq(IFileReader fileReader);
     Node addElementIntoQueueAndReturnRoot(Map<Character,Integer> frequencyMap);
     void iterateTreeAndCalculateHuffManCode(Node newNode, String s,Map<Character,String> huffmanMap);
-    StringBuilder getCodes(String inputFilePath, Map<Character,String> huffmanMap, IFileReader fobj) throws IOException;
+    StringBuilder getCodes(Map<Character,String> huffmanMap, IFileReader fobj);
     StringBuilder appendRemainingZeros(StringBuilder coded);
     int noofZerosToBeAppended(StringBuilder coded);
-    byte[] compress(StringBuilder coded) throws IOException;
-
+    byte[] compress(StringBuilder coded);
 }

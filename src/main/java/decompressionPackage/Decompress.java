@@ -8,9 +8,6 @@ import java.util.ArrayList;
 
 public interface Decompress
 {
-
-    Node returnRootOfTree(ObjectInputStream ip);
-    int returnNoofZeros(ObjectInputStream ip) throws IOException;
     ArrayList<Integer> get8bitcode(int val) throws RuntimeException;
     Node goLeftorRightAndReturnNode(Node root,char val);
     StringBuilder getDecodedString(byte[] byteArray);
