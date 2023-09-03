@@ -7,6 +7,9 @@ import java.util.*;
 import generalPackage.*;
 public class ImplementationClassForCompression implements Compress
 {
+
+    // first test commit
+
     @Override
     public Map<Character, Integer> calculateFreq(IFileReader fileReader)
     {
