@@ -9,6 +9,7 @@ public class ImplementationClassForCompression implements Compress
 {
 
     // first test commit
+    //append
 
     @Override
     public Map<Character, Integer> calculateFreq(IFileReader fileReader)
