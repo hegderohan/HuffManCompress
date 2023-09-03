@@ -31,7 +31,7 @@ public class Main {
         zipper.decompress()  -> it will call that corresponding Algorithms Decompression Method
         */
 
-
+        flag=true;
         while (flag) {
             System.out.println("enter the option 1 for compression"+System.lineSeparator()+"2 for decompression"+System.lineSeparator()+"3 check validity of the decompressed file"+System.lineSeparator()+" and press 4 to exit"+System.lineSeparator());
             choice = scr.nextInt();
